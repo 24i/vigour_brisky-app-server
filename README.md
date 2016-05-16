@@ -7,13 +7,13 @@ BriskyServer(require('./app')).listen(8081)
 ```
 
 
-Spec
+**spec**
 - travis integration
 - git - where to store key
 - slack integration
 - archive (where to store apps)
 - url for versions of apps 
-  - mybriskyapp.com?tag=1.2.3
+  - mybriskyapp.com?v=1.2.3
 
 ```javascript
 const BriskyServer = require('brisky-server')
