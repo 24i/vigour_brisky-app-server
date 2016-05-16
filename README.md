@@ -18,6 +18,7 @@ BriskyServer(require('./app')).listen(8081)
 ```javascript
 const BriskyServer = require('brisky-server')
 // create allows to pass options
+// maybe make this more config
 BriskyServer.create({
   app: './app',
   archive: './storage/',
@@ -25,6 +26,7 @@ BriskyServer.create({
     key: '2312412412XXXX',
     repo: 'brisky-examples',
     version: 'x.0.0' // only update for major versions 
+    // default watches all
     // watches on commit messages, checks for tags additions -- checks if a commit message has a tag
   },
   slack: {
