@@ -3,7 +3,7 @@ Prerendering server for brisky-apps
 
 ```javascript
 const BriskyServer = require('brisky-server')
-BriskyServer({ app: './app' }).listen(8081)
+BriskyServer(require('./app')).listen(8081)
 ```
 
 
@@ -17,7 +17,8 @@ BriskyServer({ app: './app' }).listen(8081)
 
 ```javascript
 const BriskyServer = require('brisky-server')
-BriskyServer({
+// create allows to pass options
+BriskyServer.create({
   app: './app',
   archive: './storage/',
   travis: {
