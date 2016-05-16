@@ -22,7 +22,7 @@ BriskyServer(require('./app'), {
   travis: {
     key: '2312412412XXXX',
     repo: 'brisky-examples',
-    version: 'x.x.x' 
+    version: 'x.0.0' // only update for major versions 
     // watches on commit messages, checks for tags additions -- checks if a commit message has a tag
   },
   slack: {
