@@ -17,7 +17,8 @@ BriskyServer(require('./app')).listen(8081)
 
 ```javascript
 const BriskyServer = require('brisky-server')
-BriskyServer(require('./app'), {
+BriskyServer({
+  app: './app',
   archive: './storage/',
   travis: {
     key: '2312412412XXXX',
