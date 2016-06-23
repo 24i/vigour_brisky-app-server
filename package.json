@@ -29,23 +29,10 @@
     "DOM"
   ],
   "dependencies": {
-    "brisky-core": "^1.0.0"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
+    "brisky": "^1.0.0"
   },
   "contributors": [
-    "Jim de Beer <jim@vigour.io>",
-    "Youri Daamen <youri@vigour.io>"
+    "Jim de Beer <jim@vigour.io>"
   ],
   "devDependencies": {
     "coveralls": "^2.11.9",

@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+'use strict'
+const createServer = require('../server')
+const port = process.argv[2] || 80
+createServer(port)
