@@ -27,8 +27,10 @@
   },
   "homepage": "https://github.com/vigour-io/brisky-app-server#readme",
   "dependencies": {
+    "vigour-ua": "^2.0.3"
   },
   "devDependencies": {
+    "sinon": "^1.17.0",
     "coveralls": "^2.11.9",
     "istanbul": "^0.4.3",
     "nodemon": "^1.9.1",
