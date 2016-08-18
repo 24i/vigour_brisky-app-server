@@ -1,6 +1,0 @@
-#!/usr/bin/env node
-'use strict'
-const BriskyServer = require('../')
-const port = process.argv[2] || 80
-console.log('brisky-server', port)
-BriskyServer().listen(port)
