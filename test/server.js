@@ -4,10 +4,8 @@ const test = require('tape')
 const sinon = require('sinon')
 
 const http = require('http')
-const url = require('url')
 const path = require('path')
 const fs = require('fs')
-const ua = require('vigour-ua')
 
 const server = require('../lib/server')
 
