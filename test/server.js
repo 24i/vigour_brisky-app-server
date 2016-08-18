@@ -10,3 +10,9 @@ const ua = require('vigour-ua')
 const server = require('../lib/server')
 
 */
+
+const test = require('tape')
+
+test('app server', t => {
+  t.end()
+})
