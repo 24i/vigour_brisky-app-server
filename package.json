@@ -1,6 +1,6 @@
 {
   "name": "brisky-app-server",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Hosting assets for brisky front end app",
   "main": "lib/index.js",
   "scripts": {
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/vigour-io/brisky-app-server#readme",
   "dependencies": {
+    "mime-types": "^2.1.11",
     "vigour-ua": "^2.0.3"
   },
   "devDependencies": {
