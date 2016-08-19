@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/vigour-io/brisky-app-server#readme",
   "dependencies": {
+    "mime-types": "^2.1.11",
     "vigour-ua": "^2.0.3"
   },
   "devDependencies": {
