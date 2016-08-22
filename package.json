@@ -4,7 +4,7 @@
   "description": "Hosting assets for brisky front end app",
   "main": "lib/index.js",
   "bin": {
-    "app-server": "bin/server.js"
+    "brisky-app-server": "bin/server.js"
   },
   "scripts": {
     "start": "node bin/server",
