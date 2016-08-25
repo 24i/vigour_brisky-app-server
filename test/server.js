@@ -234,5 +234,8 @@ test('app server - get cache manifest', t => {
 test.onFinish(() => {
   http.createServer.restore()
   fs.stat.restore()
+  fs.statSync.restore()
+  fs.readdirSync.restore()
+  fs.readFileSync.restore()
   fs.createReadStream.restore()
 })
