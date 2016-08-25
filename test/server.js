@@ -16,6 +16,9 @@ sinon.stub(http, 'createServer', fn => {
 })
 
 const stat = sinon.stub(fs, 'stat')
+const statSync = sinon.stub(fs, 'statSync')
+const readdirSync = sinon.stub(fs, 'readdirSync')
+const readFileSync = sinon.stub(fs, 'readFileSync')
 const createReadStream = sinon.stub(fs, 'createReadStream')
 
 test('app server - no default index', t => {
@@ -30,6 +33,9 @@ test('app server - no default index', t => {
 
   stat.withArgs(path.join('dir', 'default', 'index.html'))
     .callsArgWith(1, true)
+
+  readdirSync.withArgs(path.join('dir'))
+    .returns([])
 
   server(null, 'dir')
 
@@ -60,6 +66,9 @@ test('app server - default index exists', t => {
   createReadStream.withArgs(path.join('dir', 'default', 'index.html'))
     .returns({pipe: response => response.end('default index')})
 
+  readdirSync.withArgs(path.join('dir'))
+    .returns([])
+
   server(80, 'dir')
 
   getUrl({
@@ -74,19 +83,22 @@ test('app server - default index exists', t => {
 })
 
 test('app server - get phone index', t => {
-  server(80, 'dir')
-
   stat.withArgs(path.join('dir', 'phone', 'a', 'b'))
-    .callsArgWith(1, false, { isFile: () => false })
+    .callsArgWith(1, true)
 
   stat.withArgs(path.join('dir', 'default', 'a', 'b'))
-    .callsArgWith(1, false, { isFile: () => false })
+    .callsArgWith(1, true)
 
   stat.withArgs(path.join('dir', 'phone', 'index.html'))
     .callsArgWith(1, false, { isFile: () => true })
 
   createReadStream.withArgs(path.join('dir', 'phone', 'index.html'))
     .returns({pipe: response => response.end('phone index')})
+
+  readdirSync.withArgs(path.join('dir'))
+    .returns([])
+
+  server(80, 'dir')
 
   getUrl({
     headers: {
@@ -100,13 +112,16 @@ test('app server - get phone index', t => {
 })
 
 test('app server - get phone/a/b.js', t => {
-  server(80, 'dir')
-
   stat.withArgs(path.join('dir', 'phone', 'a', 'b.js'))
     .callsArgWith(1, false, { isFile: () => true })
 
   createReadStream.withArgs(path.join('dir', 'phone', 'a', 'b.js'))
     .returns({pipe: response => response.end('phone/a/b.js')})
+
+  readdirSync.withArgs(path.join('dir'))
+    .returns([])
+
+  server(80, 'dir')
 
   getUrl({
     headers: {
@@ -120,8 +135,6 @@ test('app server - get phone/a/b.js', t => {
 })
 
 test('app server - get default/a/d.js', t => {
-  server(80, 'dir')
-
   stat.withArgs(path.join('dir', 'phone', 'a', 'd.js'))
     .callsArgWith(1, true)
 
@@ -131,6 +144,11 @@ test('app server - get default/a/d.js', t => {
   createReadStream.withArgs(path.join('dir', 'default', 'a', 'd.js'))
     .returns({pipe: response => response.end('default/a/d.js')})
 
+  readdirSync.withArgs(path.join('dir'))
+    .returns([])
+
+  server(80, 'dir')
+
   getUrl({
     headers: {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
@@ -138,6 +156,77 @@ test('app server - get default/a/d.js', t => {
     url: '/a/d.js'
   }, {writeHead: () => {}, end: data => {
     t.equal(data, 'default/a/d.js', 'returns default/a/d.js')
+    t.end()
+  }})
+})
+
+test('app server - get cache manifest', t => {
+  readdirSync.withArgs(path.join('dir'))
+    .returns(['phone'])
+
+  statSync.withArgs(path.join('dir', 'phone'))
+    .returns({isDirectory: () => true})
+
+  stat.withArgs(path.join('dir', 'phone', 'app.appcache'))
+    .callsArgWith(1, false, {isFile: () => true})
+
+  readFileSync.withArgs(path.join('dir', 'phone', 'app.appcache'))
+    .returns('CACHE MANIFEST')
+
+  stat.withArgs(path.join('dir', 'phone', 'a'))
+    .callsArgWith(1, true)
+
+  stat.withArgs(path.join('dir', 'default', 'a'))
+    .callsArgWith(1, true)
+
+  stat.withArgs(path.join('dir', 'phone', 'a', 'b'))
+    .callsArgWith(1, true)
+
+  stat.withArgs(path.join('dir', 'default', 'a', 'b'))
+    .callsArgWith(1, true)
+
+  stat.withArgs(path.join('dir', 'phone', 'index.html'))
+    .callsArgWith(1, true)
+
+  stat.withArgs(path.join('dir', 'default', 'index.html'))
+    .callsArgWith(1, true)
+
+  server(80, 'dir')
+
+  getUrl({
+    headers: {
+      'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
+    },
+    url: '/a'
+  }, {writeHead: () => {}, end: data => {
+    t.equal(data, 'no index!', 'returns no index!')
+  }})
+
+  getUrl({
+    headers: {
+      'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
+    },
+    url: '/a/b'
+  }, {writeHead: () => {}, end: data => {
+    t.equal(data, 'no index!', 'returns no index!')
+  }})
+
+  getUrl({
+    headers: {
+      'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
+    },
+    url: '/app.appcache'
+  }, {writeHead: () => {}, end: data => {
+    t.equal(data, 'CACHE MANIFEST\n/a\n/a/b', 'returns cache manifest')
+  }})
+
+  getUrl({
+    headers: {
+      'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
+    },
+    url: 'app.appcache'
+  }, {writeHead: () => {}, end: data => {
+    t.equal(data, 'CACHE MANIFEST\n/a\n/a/b', 'returns cache manifest')
     t.end()
   }})
 })
