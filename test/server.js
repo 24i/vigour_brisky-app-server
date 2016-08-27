@@ -6,22 +6,26 @@ const sinon = require('sinon')
 const http = require('http')
 const path = require('path')
 const fs = require('fs')
-
+var stat
+var statSync
+var readdirSync
+var readFileSync
+var createReadStream
+var getUrl
 const server = require('../lib/server')
 
-var getUrl
-sinon.stub(http, 'createServer', fn => {
-  getUrl = fn
-  return {listen: () => {}}
-})
-
-const stat = sinon.stub(fs, 'stat')
-const statSync = sinon.stub(fs, 'statSync')
-const readdirSync = sinon.stub(fs, 'readdirSync')
-const readFileSync = sinon.stub(fs, 'readFileSync')
-const createReadStream = sinon.stub(fs, 'createReadStream')
-
 test('app server - no default index', t => {
+  sinon.stub(http, 'createServer', fn => {
+    getUrl = fn
+    return {listen: () => {}}
+  })
+
+  stat = sinon.stub(fs, 'stat')
+  statSync = sinon.stub(fs, 'statSync')
+  readdirSync = sinon.stub(fs, 'readdirSync')
+  readFileSync = sinon.stub(fs, 'readFileSync')
+  createReadStream = sinon.stub(fs, 'createReadStream')
+
   stat.withArgs(path.join('dir', 'phone'))
     .callsArgWith(1, true)
 
