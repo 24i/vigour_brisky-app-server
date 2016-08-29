@@ -1,6 +1,8 @@
 'use strict'
 
 const test = require('tape')
+
+// sinon is super dangerous
 const sinon = require('sinon')
 
 const http = require('http')

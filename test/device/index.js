@@ -6,7 +6,7 @@ const test = require('tape')
 const fs = require('fs')
 
 test('app server - get device index', t => {
-  t.plan(5)
+  t.plan(7)
   const appServer = server(9090, path.resolve(__dirname))
   const host = 'localhost'
 
@@ -18,7 +18,7 @@ test('app server - get device index', t => {
       'User-Agent': 'Mozilla/5.0 (SMART-TV; Linux; Tizen 2.3) AppleWebkit/538.1 (KHTML, like Gecko) SamsungBrowser/1.0 TV Safari/538.1'
     }
   }, (res) => {
-    t.equal(res.statusCode, 200, 'should always return 200')
+    t.equal(res.statusCode, 200, 'should return 200')
     var data = ''
     res.on('data', (chunk) => {
       data += chunk
@@ -34,13 +34,14 @@ test('app server - get device index', t => {
     host,
     port: 9090
   }, (res) => {
-    t.equal(res.statusCode, 200, 'should always return 200')
+    t.equal(res.statusCode, 200, 'should return 200')
     var data = ''
     res.on('data', (chunk) => {
       data += chunk
     })
     res.on('end', () => {
       t.equal(data, fs.readFileSync(path.join(__dirname, 'default/index.html')).toString(), 'loads index.html for default')
+      setTimeout(nasaimg, 1000)
     })
   }).on('error', (e) => {
     console.log(`Got error: ${e.message}`)
@@ -66,6 +67,43 @@ test('app server - get device index', t => {
   }).on('error', (e) => {
     console.log(`Got error: ${e.message}`)
   })
+
+  function nasaimg () {
+    http.get({
+      host,
+      port: 9090,
+      path: '/nasa.jpeg'
+    }, (res) => {
+      var data = ''
+      res.on('data', (chunk) => {
+        data += chunk.toString()
+      })
+      res.on('end', () => {
+        t.ok(data.length > 1e4, 'loads nasa image')
+        process.nextTick(cached)
+      })
+    }).on('error', (e) => {
+      console.log(`Got error: ${e.message}`)
+    })
+
+    function cached () {
+      http.get({
+        host,
+        port: 9090,
+        path: '/nasa.jpeg'
+      }, (res) => {
+        var data = ''
+        res.on('data', (chunk) => {
+          data += chunk.toString()
+        })
+        res.on('end', () => {
+          t.ok(data.length > 1e4, 'loads mem-cached nasa image')
+        })
+      }).on('error', (e) => {
+        console.log(`Got error: ${e.message}`)
+      })
+    }
+  }
 
   test.onFinish(() => {
     appServer.close()
