@@ -1,4 +1,4 @@
 'use strict'
 
 require('./device')
-require('./server')
+// require('./server')
