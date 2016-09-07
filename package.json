@@ -1,6 +1,6 @@
 {
   "name": "brisky-app-server",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Hosting assets for brisky front end app",
   "main": "lib/index.js",
   "bin": {
