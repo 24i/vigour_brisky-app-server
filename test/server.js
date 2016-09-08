@@ -50,10 +50,13 @@ test('app server - no default index', t => {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: ''
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'no index!', 'returns no index!')
-    t.end()
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'no index!', 'returns no index!')
+      t.end()
+    }
+  })
 })
 
 test('app server - default index exists', t => {
@@ -82,10 +85,13 @@ test('app server - default index exists', t => {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: '/a/c.js'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'default index', 'returns default index')
-    t.end()
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'default index', 'returns default index')
+      t.end()
+    }
+  })
 })
 
 test('app server - get phone index', t => {
@@ -111,10 +117,13 @@ test('app server - get phone index', t => {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: '/a/b'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'phone index', 'returns phone index')
-    t.end()
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'phone index', 'returns phone index')
+      t.end()
+    }
+  })
 })
 
 test('app server - get phone/a/b.js', t => {
@@ -134,10 +143,13 @@ test('app server - get phone/a/b.js', t => {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: '/a/b.js'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'phone/a/b.js', 'returns phone/a/b.js')
-    t.end()
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'phone/a/b.js', 'returns phone/a/b.js')
+      t.end()
+    }
+  })
 })
 
 test('app server - get default/a/d.js', t => {
@@ -160,10 +172,13 @@ test('app server - get default/a/d.js', t => {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: '/a/d.js'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'default/a/d.js', 'returns default/a/d.js')
-    t.end()
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'default/a/d.js', 'returns default/a/d.js')
+      t.end()
+    }
+  })
 })
 
 test('app server - get cache manifest', t => {
@@ -204,37 +219,49 @@ test('app server - get cache manifest', t => {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: '/a'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'no index!', 'returns no index!')
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'no index!', 'returns no index!')
+    }
+  })
 
   getUrl({
     headers: {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: '/a/b'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'no index!', 'returns no index!')
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'no index!', 'returns no index!')
+    }
+  })
 
   getUrl({
     headers: {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: '/app.appcache'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'CACHE MANIFEST\n/a\n/a/b', 'returns cache manifest')
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'CACHE MANIFEST\n/a\n/a/b', 'returns cache manifest')
+    }
+  })
 
   getUrl({
     headers: {
       'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13B137'
     },
     url: 'app.appcache'
-  }, {writeHead: () => {}, end: data => {
-    t.equal(data, 'CACHE MANIFEST\n/a\n/a/b', 'returns cache manifest')
-    t.end()
-  }})
+  }, {
+    writeHead: () => {},
+    end: data => {
+      t.equal(data, 'CACHE MANIFEST\n/a\n/a/b', 'returns cache manifest')
+      t.end()
+    }
+  })
 })
 
 test.onFinish(() => {
