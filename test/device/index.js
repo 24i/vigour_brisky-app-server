@@ -24,7 +24,9 @@ test('app server - get device index', t => {
       data += chunk
     })
     res.on('end', () => {
-      t.equal(data, fs.readFileSync(path.join(__dirname, 'tv/index.html')).toString(), 'loads index.html for tv')
+      t.equal(data, fs.readFileSync(path.join(__dirname, 'tv/index.html')).toString().replace(
+        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16"">`
+      ), 'loads index.html for tv')
     })
   }).on('error', (e) => {
     console.log(`Got error: ${e.message}`)
@@ -40,7 +42,9 @@ test('app server - get device index', t => {
       data += chunk
     })
     res.on('end', () => {
-      t.equal(data, fs.readFileSync(path.join(__dirname, 'default/index.html')).toString(), 'loads index.html for default')
+      t.equal(data, fs.readFileSync(path.join(__dirname, 'default/index.html')).toString().replace(
+        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16"">`
+      ), 'loads index.html for default')
       setTimeout(nasaimg, 1000)
     })
   }).on('error', (e) => {
