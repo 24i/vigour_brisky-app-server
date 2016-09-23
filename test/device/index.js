@@ -25,7 +25,7 @@ test('app server - get device index', t => {
     })
     res.on('end', () => {
       t.equal(data, fs.readFileSync(path.join(__dirname, 'tv/index.html')).toString().replace(
-        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16"">`
+        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16">`
       ), 'loads index.html for tv')
     })
   }).on('error', (e) => {
@@ -43,7 +43,7 @@ test('app server - get device index', t => {
     })
     res.on('end', () => {
       t.equal(data, fs.readFileSync(path.join(__dirname, 'default/index.html')).toString().replace(
-        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16"">`
+        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16">`
       ), 'loads index.html for default')
       setTimeout(nasaimg, 1000)
     })
@@ -86,7 +86,7 @@ test('app server - get device index', t => {
     })
     res.on('end', () => {
       t.equal(data, fs.readFileSync(path.join(__dirname, 'cordova/index.html')).toString().replace(
-        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16"">`
+        '<head>', `<head>\n<meta name="app-version" content="@vigour-io/adm-app@1.1.16">`
       ), 'loads index.html for cordova')
     })
   }).on('error', (e) => {
